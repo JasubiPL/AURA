@@ -1,6 +1,7 @@
 # ADR-001 · Perfil JavaScript inicial de Aura
 
 **Fecha:** 2026-09-24  
+**Actualizado:** 2026-09-25  
 **Estado:** Decisión de arquitectura aprobada como dirección de Aura; contratos y criterios de MVP definidos, implementación pendiente. Los parámetros expresamente señalados como pendientes no quedan aprobados por este ADR.  
 
 ## Contexto
@@ -17,6 +18,13 @@ El desarrollo inicial se centrará en proyectos JavaScript, pero Aura debe servi
 6. Ofrecer un arnés de ingeniería independiente del lenguaje y framework: los perfiles JavaScript, Python, Go, C#, React Native u otros se conectan a los mismos principios y flujos mediante capacidades optativas. Los flujos transversales no contienen comandos ni convenciones exclusivos de un stack.
 7. Definir desde la primera versión las fronteras de **Agent Router** y **Model Router** y un presupuesto común, aunque el MVP ejecute un agente y un modelo configurado. La selección automática entre especialistas, proveedores o modelos requiere adaptadores y evaluaciones posteriores.
 8. El runtime, no los prompts ni las skills, decide la autorización de herramientas. El MVP ya debe imponer aislamiento por espacio de trabajo, permisos graduados de archivos, comandos y red, con concesiones limitadas por operación, sesión o configuración persistente revocable.
+
+## Decisiones complementarias aprobadas (2026-09-25)
+
+- **Runtime inicial:** JavaScript ESM con JSDoc. Mantener interfaces del núcleo independientes del perfil tecnológico; evaluar un cambio de lenguaje solo si aparecen necesidades verificables.
+- **Proveedores iniciales objetivo:** OpenAI y Anthropic, con adaptadores separados y configuración explícita. El soporte de ambos forma parte de la dirección aprobada; el orden de implementación y los métodos de autenticación se validarán en el spike. Una suscripción de producto no implica acceso API ni autoriza reutilizar credenciales.
+- **Sandbox:** evaluar Bubblewrap en Linux y Seatbelt en macOS mediante un `SandboxAdapter` con contratos independientes de plataforma. WSL2 es candidato para Windows, sujeto a pruebas. Ninguna tecnología está aprobada como implementación definitiva hasta verificar aislamiento de archivos, procesos, tiempo y red; ante ausencia de aislamiento verificable, solicitar aprobación explícita o denegar la operación.
+- **Pendiente:** esquema de manifiestos/configuración/sesiones, reglas de precedencia, política concreta de permisos, presupuestos y formato de memoria.
 
 ## Principios de diseño y límites
 
@@ -128,8 +136,8 @@ El sandbox y las comprobaciones de rutas se aplican por el ejecutor antes de inv
 - El repositorio público ya está creado y contiene documentación inicial; todavía no existe un runtime ni una CLI funcional.
 - Convertir los contratos de este ADR en especificaciones verificables antes de codear: `requirements`, `design`, `tasks` y validación. Abrir con un spike técnico acotado para probar el sandbox, los límites efectivos del proveedor, el almacenamiento de aprobaciones y la resolución de capacidades. El spike investiga factibilidad dentro del proceso SDD (Spec-Driven Development).
 - Concretar esquema de manifiesto/configuración/sesión, precedencia, formato de rutas, permisos, plataforma de sandbox y matriz de pruebas. El contrato de protección y la UX de aprobación son obligatorios en el MVP aunque su implementación concreta se decida en el spike.
-- Elección y configuración local de credenciales de API para el primer proveedor; una suscripción no implica acceso API.
-- Decisión de lenguaje del runtime: JavaScript ESM con JSDoc es la propuesta inicial, aún pendiente de aprobación antes de implementar el runtime. La elección del lenguaje del runtime es independiente de que el perfil inicial sea JavaScript.
+- Verificar los mecanismos de autenticación y configurar credenciales locales para OpenAI y Anthropic, los dos proveedores objetivo iniciales; una suscripción no implica acceso API.
+- Implementar el runtime en JavaScript ESM con JSDoc, conforme a la decisión aprobada. La elección del lenguaje del runtime es independiente de que el perfil inicial sea JavaScript.
 - Probar, antes de prometerlo, el descubrimiento e interpretación de formatos externos de cada harness; acordar instalación/actualización segura y desinstalación con dependencias. Las reglas propias de organizaciones y productos ajenos no forman parte del perfil inicial de Aura.
 - Definir valores configurables iniciales y métricas para tiempo, presupuesto, coste e iteraciones; no inventar cuotas o cifras universales ni convertir un cálculo estimado en un límite garantizado.
 - Definir formato y reglas de edición/eliminación de entradas de memoria al implementar su primera versión; comprobar aislamiento entre dos repositorios y evitar que una nota obsoleta suplante el código o un ADR vigente.
