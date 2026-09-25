@@ -125,11 +125,11 @@ El sandbox y las comprobaciones de rutas se aplican por el ejecutor antes de inv
 
 ## Pendientes de implementación
 
-- Ubicación y acceso al repositorio propio de Aura; no existe aún código de Aura en el espacio de trabajo revisado.
+- El repositorio público ya está creado y contiene documentación inicial; todavía no existe un runtime ni una CLI funcional.
 - Convertir los contratos de este ADR en especificaciones verificables antes de codear: `requirements`, `design`, `tasks` y validación. Abrir con un spike técnico acotado para probar el sandbox, los límites efectivos del proveedor, el almacenamiento de aprobaciones y la resolución de capacidades. El spike investiga factibilidad dentro del proceso SDD (Spec-Driven Development).
 - Concretar esquema de manifiesto/configuración/sesión, precedencia, formato de rutas, permisos, plataforma de sandbox y matriz de pruebas. El contrato de protección y la UX de aprobación son obligatorios en el MVP aunque su implementación concreta se decida en el spike.
 - Elección y configuración local de credenciales de API para el primer proveedor; una suscripción no implica acceso API.
-- Decisión de lenguaje del runtime: JavaScript ESM con JSDoc es la propuesta coherente con el stack actual de Jas; se puede revisar antes de crear el repositorio. La elección del lenguaje del runtime es independiente de que el perfil inicial sea JavaScript.
+- Decisión de lenguaje del runtime: JavaScript ESM con JSDoc es la propuesta inicial, aún pendiente de aprobación antes de implementar el runtime. La elección del lenguaje del runtime es independiente de que el perfil inicial sea JavaScript.
 - Probar, antes de prometerlo, el descubrimiento e interpretación de formatos externos de cada harness; acordar instalación/actualización segura y desinstalación con dependencias. Las reglas propias de organizaciones y productos ajenos no forman parte del perfil inicial de Aura.
 - Definir valores configurables iniciales y métricas para tiempo, presupuesto, coste e iteraciones; no inventar cuotas o cifras universales ni convertir un cálculo estimado en un límite garantizado.
 - Definir formato y reglas de edición/eliminación de entradas de memoria al implementar su primera versión; comprobar aislamiento entre dos repositorios y evitar que una nota obsoleta suplante el código o un ADR vigente.
