@@ -22,9 +22,27 @@ El desarrollo inicial se centrará en proyectos JavaScript, pero Aura debe servi
 ## Decisiones complementarias aprobadas (2026-09-25)
 
 - **Runtime inicial:** JavaScript ESM con JSDoc. Mantener interfaces del núcleo independientes del perfil tecnológico; evaluar un cambio de lenguaje solo si aparecen necesidades verificables.
-- **Proveedores iniciales objetivo:** OpenAI y Anthropic, con adaptadores separados y configuración explícita. El soporte de ambos forma parte de la dirección aprobada; el orden de implementación y los métodos de autenticación se validarán en el spike. Una suscripción de producto no implica acceso API ni autoriza reutilizar credenciales.
-- **Sandbox:** evaluar Bubblewrap en Linux y Seatbelt en macOS mediante un `SandboxAdapter` con contratos independientes de plataforma. WSL2 es candidato para Windows, sujeto a pruebas. Ninguna tecnología está aprobada como implementación definitiva hasta verificar aislamiento de archivos, procesos, tiempo y red; ante ausencia de aislamiento verificable, solicitar aprobación explícita o denegar la operación.
-- **Pendiente:** esquema de manifiestos/configuración/sesiones, reglas de precedencia, política concreta de permisos, presupuestos y formato de memoria.
+- **Integración inicial:** OpenAI es el único proveedor del MVP, mediante una integración directa y permitida con la suscripción ChatGPT/Codex, sin facturación API por defecto. Aura conserva su propio Agent Runtime y Tool Executor. Anthropic y el adaptador OpenAI API se posponen; sus métodos de autenticación y costes se decidirán por separado. Nunca extraer ni reutilizar credenciales privadamente.
+- **Sandbox:** macOS es la plataforma de v0.1.0. Verificar el sandbox de Codex en macOS (incluido Seatbelt cuando corresponda), sus aprobaciones, límites de archivos, procesos, tiempo y red. Linux/Bubblewrap y Windows/WSL2 quedan para versiones posteriores, tras sus propias pruebas. No afirmar aislamiento de Aura sobre herramientas delegadas a Codex sin evidencia de enforcement; ante una restricción crítica no verificable, bloquear la operación o la release.
+- **Configuración y sesiones aprobadas:** YAML validado en `~/.aura/config.yaml` y `<repo>/.aura/config.yaml`; sesiones JSONL identificadas y aisladas por repositorio. Campos exactos, precedencia, esquemas versionados, política concreta de permisos y valores iniciales de presupuesto se cierran después del spike. La memoria automática a largo plazo pertenece a una versión posterior.
+
+## Alcance de la primera versión aprobado (2026-09-25)
+
+Para v0.1.0 prevalece este alcance acotado cuando otra sección de este ADR describa una arquitectura futura o un MVP más amplio:
+
+- **macOS-first:** desarrollar, probar y distribuir primero para Mac. No prometer Linux/Windows en esta release.
+- **ChatGPT/Codex subscription-first:** integrar mediante una vía directa y permitida que preserve el runtime propio de Aura. El usuario no entrega manualmente tokens privados y Aura no activa una API facturada por tokens como fallback silencioso.
+- **Separación explícita de propiedad:** en el modo delegado, Codex conserva el ciclo interno de agente y el despacho de sus herramientas. Aura mantiene su propia CLI, configuración, sesiones, control externo de presupuestos, UX y políticas adicionales que sean realmente verificables. El Agent Runtime completamente independiente y el proveedor de modelo directo se desarrollarán en una integración posterior con autenticación separada.
+- **Estado local:** YAML con validaciones para usuario y proyecto, y sesiones JSONL aisladas por repositorio. Credenciales fuera del YAML, la memoria y el repositorio.
+- **Presupuestos:** límites configurables de llamadas, tiempo, herramientas, timeout de comandos e iteraciones. Solo exponer límites semanales de la cuenta, tokens y coste si la integración ofrece datos fiables; distinguir desconocido y estimado. Ningún cargo adicional automático.
+- **Versión técnica aprobada:** Node.js 24 como versión mínima, baseline de desarrollo y primer target de distribución. Cualquier salto posterior de versión requiere comprobar compatibilidad y ejecutar las pruebas, no ocurre automáticamente al publicarse Node.js nuevo. npm, `node:test` y licencia MIT siguen siendo propuestas no aprobadas.
+- **Pospuesto:** Anthropic, OpenAI API, modelo/router automático, importación de skills externas, especialistas, workflows avanzados, memoria automática permanente, TUI rica y otros sistemas operativos. Los contratos simples no deben confundirse con implementaciones completas.
+
+**Integración investigada:** OpenCode y Hermes documentan autenticación ChatGPT/Codex OAuth directa. El spike contrastará su viabilidad técnica, estabilidad y autorización; observar esa implementación en terceros no la convierte automáticamente en una API pública soportada para Aura.
+
+**Condición del spike:** demostrar que el modo de suscripción oficial permite los controles y el sandbox exigidos en macOS. Si un control de seguridad obligatorio no es verificable, la opción se bloquea y el diseño se revisa; la alternativa API pagada nunca se activa sin consentimiento expreso.
+
+El detalle del trabajo y la aceptación se encuentran en [Brief del MVP](../mvp/brief.md), [Requisitos](../mvp/requirements.md) y [Plan de implementación](../mvp/implementation-plan.md).
 
 ## Principios de diseño y límites
 
@@ -122,21 +140,21 @@ La UI de aprobación ofrece **una vez**, **durante esta sesión** o **guardar re
 
 El sandbox y las comprobaciones de rutas se aplican por el ejecutor antes de invocar el proceso y durante los accesos que pueda controlar; validar ruta canónica, ancestros y symlinks evita escapes triviales. Para comandos arbitrarios, un filtrado textual o una lista de rutas en el prompt no constituye aislamiento: si la plataforma no ofrece aislamiento verificable para el alcance solicitado, Aura debe pedir autorización para ejecución sin ese aislamiento o rechazarla. Los secretos se obtienen mediante mecanismos seguros del sistema/proveedor, se ocultan de logs y memorias, y el usuario puede inspeccionar por qué una herramienta fue aprobada, denegada o ejecutada. Las skills y agentes externos nunca reciben más autoridad que la sesión.
 
-## Primeras entregas y criterios
+## Entregas de v0.1.0 y evolución
 
-1. **MVP ejecutable:** CLI conversacional + runtime + integración real con un modelo autorizado + lectura/búsqueda/edición + terminal en sandbox verificable + controles de rutas, red, timeout y aprobaciones graduadas + configuración y sesiones aisladas por proyecto. Una consulta sencilla no ejecuta checks ni carga skills irrelevantes. La implementación inicial del router es directa y usa un modelo configurado.
-2. **Capacidades y uso:** catálogo pequeño propio, manifiesto mínimo, perfil JavaScript y carga selectiva; comandos para listar, inspeccionar, habilitar, deshabilitar y ver uso real/estimado. Mostrar conteos por origen e impedir que una capacidad externa descubierta se active sola. Probar permisos una vez/sesión/persistentes, revocación, rechazo, aislamiento de proyecto y acceso a carpetas externas.
-3. **Ingeniería transversal:** flujos `implement`/`review` proporcionales y ruta directa de explicación, probados primero con JavaScript. El contrato del flujo no contiene comandos ni reglas sintácticas de JavaScript. Dos intentos equivalentes sin avance se detienen.
-4. **Evolución:** comprobar portabilidad con un segundo stack; después sumar modelos/proveedores, fallback, selección automática y especialistas según casos medidos. TUI, SDD más completo, memoria automática y coordinación paralela se incorporan en fases posteriores con criterios propios.
+1. **Spike macOS y suscripción:** comprobar una integración directa y permitida con ChatGPT/Codex para el OpenAI Provider Adapter, autenticación/renovación, acceso real al modelo, cuotas observables y límites del protocolo.
+2. **MVP ejecutable:** CLI + Agent Runtime propio + configuración YAML + sesiones JSONL aisladas + OpenAI Provider Adapter + Tool Executor propio con permisos, sandbox y presupuestos verificables. Ejecutar una tarea real de edición y validación en un repositorio de prueba.
+3. **Pruebas de aceptación:** denegar archivos fuera de raíces autorizadas, comprobar aprobaciones, bloquear ejecución sin aislamiento exigido, detener procesos por timeout, distinguir datos de cuota disponibles/desconocidos, mantener dos repositorios aislados y evitar comandos innecesarios al explicar una PR. No existe fallback automático a API facturada.
+4. **Posterior al MVP:** adaptadores API para autonomía del loop, Anthropic, capacidades externas, workflows avanzados, routers automáticos, memoria persistente avanzada, plataformas adicionales y TUI.
 
-**Aceptación mínima del MVP:** (a) completar una tarea de edición y validación en un proyecto de prueba, (b) denegar una lectura fuera del proyecto hasta concederla y distinguir lectura de escritura, (c) pedir aprobación del alcance preciso de un comando y ejecutar/denegar según elección, (d) impedir que un proceso exceda los límites de sandbox/tiempo y mostrar la causa, (e) descubrir una skill externa sin cargarla, asignarla solo a un proyecto y comprobar los conteos, (f) mantener sesiones de dos repositorios separadas, (g) informar uso real y etiquetar lo desconocido sin inventar coste, (h) explicar comentarios de PR sin suite ni delegación automática, (i) verificar que no existe herramienta de generación multimedia. Estas pruebas requieren un ambiente controlado y evidencias reales; este ADR no afirma haberlas ejecutado.
+Un PR de la rama MVP a `main` y la etiqueta `v0.1.0` requieren evidencias reales de aceptación. Este ADR no indica que el runtime o esas pruebas ya existan.
 
 ## Pendientes de implementación
 
 - El repositorio público ya está creado y contiene documentación inicial; todavía no existe un runtime ni una CLI funcional.
 - Convertir los contratos de este ADR en especificaciones verificables antes de codear: `requirements`, `design`, `tasks` y validación. Abrir con un spike técnico acotado para probar el sandbox, los límites efectivos del proveedor, el almacenamiento de aprobaciones y la resolución de capacidades. El spike investiga factibilidad dentro del proceso SDD (Spec-Driven Development).
 - Concretar esquema de manifiesto/configuración/sesión, precedencia, formato de rutas, permisos, plataforma de sandbox y matriz de pruebas. El contrato de protección y la UX de aprobación son obligatorios en el MVP aunque su implementación concreta se decida en el spike.
-- Verificar los mecanismos de autenticación y configurar credenciales locales para OpenAI y Anthropic, los dos proveedores objetivo iniciales; una suscripción no implica acceso API.
+- Verificar una vía directa y permitida de autenticación ChatGPT/Codex para el OpenAI Provider Adapter, preservando el runtime propio de Aura. Anthropic y OpenAI API se integrarán posteriormente con autenticación y presupuestos propios.
 - Implementar el runtime en JavaScript ESM con JSDoc, conforme a la decisión aprobada. La elección del lenguaje del runtime es independiente de que el perfil inicial sea JavaScript.
 - Probar, antes de prometerlo, el descubrimiento e interpretación de formatos externos de cada harness; acordar instalación/actualización segura y desinstalación con dependencias. Las reglas propias de organizaciones y productos ajenos no forman parte del perfil inicial de Aura.
 - Definir valores configurables iniciales y métricas para tiempo, presupuesto, coste e iteraciones; no inventar cuotas o cifras universales ni convertir un cálculo estimado en un límite garantizado.
