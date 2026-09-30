@@ -6,11 +6,11 @@
 
 **Aura** (*Adaptive Unified Reasoning Agent*) es un proyecto personal de Jasubi Piñeyro para construir una asistente de ingeniería de software desde la terminal. El objetivo es un agent harness independiente, modular y extensible que pueda comprender proyectos, modificar código, ejecutar herramientas con permisos explícitos y evolucionar hacia varios modelos y agentes especializados.
 
-> **Estado:** diseño inicial. Todavía no existe una CLI funcional ni se han implementado los componentes descritos aquí.
+> **Estado:** especificación inicial del MVP macOS; todavía no existe una CLI funcional. Las integraciones y garantías de seguridad descritas dependen de pruebas de factibilidad.
 
 ## Primera entrega
 
-El MVP busca completar una tarea real de código desde una CLI: conversar con un modelo conectado, leer y buscar archivos, proponer y aplicar cambios dentro del proyecto, ejecutar comandos y pruebas en un sandbox verificable, y guardar una sesión aislada por repositorio. Incluirá aprobaciones por operación, sesión o regla revocable; límites de tiempo y herramientas; un catálogo pequeño de capacidades que se carguen solo cuando hagan falta; y visibilidad del consumo que el proveedor realmente reporte.
+El MVP es macOS-first, usa únicamente OpenAI y adopta la Opción B: Aura conserva su propio Agent Runtime, contexto, herramientas, permisos, presupuestos y sesiones. La prioridad es utilizar la suscripción ChatGPT/Codex mediante una integración directa y permitida, detrás del OpenAI Provider Adapter. No habrá fallback silencioso hacia una API facturada por tokens.
 
 Aura podrá consultar internet para tareas de ingeniería según los permisos de la sesión. No incluirá herramientas para generar imágenes, video o audio.
 
@@ -29,7 +29,9 @@ Esta es la arquitectura objetivo. En el MVP, los routers tendrán contratos simp
 ## Decisiones y siguiente paso
 
 - [ADR-001: perfil JavaScript inicial y arquitectura transversal](docs/adr/ADR-001-perfil-javascript-inicial-aura.md) — decisiones, permisos y criterios verificables del MVP.
-- Siguiente actividad: un spike de factibilidad para sandbox, aprobaciones, integración del primer modelo y resolución de capacidades; después, especificaciones SDD (`requirements`, `design`, `tasks`, `validation`).
+- [ADR-002: runtime propio y MVP solo con OpenAI](docs/adr/ADR-002-runtime-independiente-openai.md) — decisión de arquitectura y condición de viabilidad de la suscripción.
+- El desarrollo sigue SDD desde el MVP: [Brief](docs/mvp/brief.md) → [Requisitos](docs/mvp/requirements.md) → [Diseño](docs/mvp/design.md) → [Tareas](docs/mvp/tasks.md) → implementación → validación. El [Plan de implementación](docs/mvp/implementation-plan.md) ordena las fases. Las correcciones pequeñas usan un proceso proporcional.
+- Siguiente actividad: un spike de factibilidad para autenticación directa con la suscripción ChatGPT/Codex, OpenAI Provider Adapter y sandbox propio en macOS. Codex App Server queda solo como referencia/alternativa de investigación.
 
 El diseño se documentará mediante decisiones verificables y ejemplos propios de Aura. Cada avance distinguirá las funciones implementadas de las propuestas de arquitectura.
 
