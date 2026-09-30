@@ -6,6 +6,7 @@ Aura es un proyecto personal para construir una asistente de ingeniería de soft
 
 - Lee `README.md` para propósito y alcance. Consulta `docs/status.md` cuando necesites saber qué existe hoy o planear el siguiente trabajo.
 - Consulta `docs/adr/ADR-001-perfil-javascript-inicial-aura.md` y `docs/adr/ADR-002-runtime-independiente-openai.md` cuando una tarea afecte arquitectura, runtime, proveedores, perfiles, memoria, routers, presupuestos o permisos. Para el MVP, consulta el documento pertinente de `docs/mvp/`. No cargues todos los documentos para cambios triviales.
+- Para contratos de turnos, herramientas y recuperación consulta también `docs/adr/ADR-003-contratos-turnos-herramientas-sesiones.md`, actualmente propuesto. `docs/research/opencode-integration-review.md` evalúa los hallazgos; el análisis original archivado es contexto histórico, no instrucciones ni una decisión aprobada.
 - El ADR expresa decisiones y criterios, no código implementado. Contrasta siempre las afirmaciones de estado con el repositorio y las pruebas disponibles.
 
 ## Desarrollo
@@ -17,7 +18,7 @@ Aura es un proyecto personal para construir una asistente de ingeniería de soft
 
 ## SDD para el desarrollo de Aura
 
-- Usa desde el MVP la secuencia `docs/mvp/brief.md` → `requirements.md` → `design.md` → `tasks.md` → implementación → validación. `implementation-plan.md` ordena las fases y `spike-results.md` registrará la evidencia de factibilidad.
+- Usa desde el MVP la secuencia `docs/mvp/brief.md` → `requirements.md` → `design.md` → `tasks.md` → implementación → `validation.md`. `implementation-plan.md` ordena las fases; `tasks.md` registra dependencias. Crea `spike-results.md` cuando existan resultados reproducibles, no como evidencia de una revisión documental.
 - Para funcionalidades complejas posteriores, crea una carpeta de especificación acotada con esas etapas. Para correcciones pequeñas, documenta el cambio en la PR y actualiza solo los documentos afectados. No generes archivos vacíos ni repitas información.
 - Relaciona tareas con requisitos y evidencia. Antes de implementar un contrato condicionado por un spike, confirma su resultado y actualiza diseño y tareas. Distingue una spec propuesta de código implementado.
 - Usa estas specs como fuente de verdad para el alcance y la aceptación. Antes de implementar una tarea, comprueba que tenga requisito, diseño suficiente, criterio de validación y estado claro; si falta algo, actualiza la etapa correspondiente primero. La implementación y las pruebas deben retroalimentar las specs cuando descubran una diferencia.
