@@ -14,10 +14,16 @@ Actualizado: 2026-09-29 (America/Mexico_City). La documentación inicial está i
 - Referencias obsoletas de runtime delegado en ADR-001 alineadas con la decisión aprobada de ADR-002.
 - ADR-002 actualizado con OAuth confirmado por Jas y una candidata oficial documentada para investigar el acceso por suscripción.
 - ADR-003 **propuesto** para contratos de streaming, herramientas, permisos, edición y recuperación. Specs existentes refinadas, tareas/dependencias y matriz de validación planificada; ninguna prueba de implementación ejecutada.
+- [Auditoría de SDD](research/sdd-audit.md): alineación documental en la etapa de especificación, con validación anticipada, referencias al diseño por tarea y revisión de coherencia en la PR. Guía operativa y ADR-004 registrados; sin evidencia de un ciclo de código completado.
 
 ## Proceso de desarrollo
 
-- SDD desde el MVP: brief → requisitos → diseño → tareas → implementación → validación. El diseño sigue sujeto al spike y las tareas no representan código terminado. Para cambios pequeños, documentación proporcional sin flujos paralelos.
+- SDD es el proceso predeterminado desde el MVP según la [guía compartida](development/sdd.md): brief/requisitos → diseño → tareas y validación planificada → implementación → validación ejecutada y reconciliación de specs. Preparación y cierre por incremento, con cambios pequeños documentados de forma compacta. El diseño sigue sujeto al spike y las tareas no representan código terminado.
+
+## Dirección de producto aprobada para Aura completa
+
+- [ADR-004](adr/ADR-004-sdd-desarrollo-y-flujo-predeterminado.md): Jas confirmó SDD como flujo predeterminado de Aura completa para crear/modificar software. Reutilizar specs del proyecto, tareas trazables, validación y continuidad; pasos proporcionales al cambio y consultas directas sin documentos innecesarios.
+- Esta decisión está registrada, pero **la capacidad de Aura de gestionar SDD no está implementada**. Antes de desarrollarla, crear una spec posterior con diseño y aceptación propios. No añade el Workflow Engine completo ni otro criterio de lanzamiento a v0.1.0.
 
 ## Aprobado para v0.1.0
 
@@ -60,6 +66,9 @@ La documentación y las especificaciones se redactan en español. Los nombres de
 - [ADR-001](adr/ADR-001-perfil-javascript-inicial-aura.md)
 - [ADR-002: runtime propio y MVP solo con OpenAI](adr/ADR-002-runtime-independiente-openai.md)
 - [ADR-003: contratos mínimos propuestos](adr/ADR-003-contratos-turnos-herramientas-sesiones.md)
+- [ADR-004: SDD para construir Aura y como default del producto completo](adr/ADR-004-sdd-desarrollo-y-flujo-predeterminado.md)
+- [Guía de SDD](development/sdd.md)
+- [Auditoría de SDD](research/sdd-audit.md)
 - [Revisión de integración de OpenCode](research/opencode-integration-review.md)
 - [Brief del MVP](mvp/brief.md)
 - [Requisitos](mvp/requirements.md)

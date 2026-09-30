@@ -6,6 +6,8 @@
 
 **Lectura vigente:** [ADR-002](ADR-002-runtime-independiente-openai.md) sustituyó la propuesta provisional de runtime delegado por runtime y Tool Executor propios. Esta actualización alinea las referencias de esa propuesta; no añade una nueva decisión de alcance. [ADR-003](ADR-003-contratos-turnos-herramientas-sesiones.md) contiene refinamientos técnicos todavía propuestos.
 
+[ADR-004](ADR-004-sdd-desarrollo-y-flujo-predeterminado.md) aprueba SDD para el desarrollo del repositorio y como flujo predeterminado de Aura completa al crear/modificar software; prevalece sobre referencias a SDD como una elección meramente opcional. Su automatización no forma parte todavía del MVP.
+
 ## Contexto
 
 El desarrollo inicial se centrará en proyectos JavaScript, pero Aura debe servir también para otros lenguajes. El runtime será independiente del editor y del stack. El diseño favorece operaciones proporcionales a la tarea, carga selectiva de contexto y permisos aplicados por el ejecutor.
@@ -56,7 +58,7 @@ Aura adopta un runtime independiente del editor, un catálogo privado de capacid
 
 La base de Aura contiene skills pequeñas de **calidad de ingeniería**, **diseño/arquitectura**, **pruebas**, **revisión fundamentada** y **seguridad de cambios**, sin reglas de sintaxis ni comandos de un stack. Son orientaciones aplicadas según la intención y el riesgo, no cinco documentos insertados siempre en el prompt. Incluyen cohesión, contratos, límites entre módulos, estado y dependencias explícitos, errores observables, pruebas útiles y hallazgos con evidencia.
 
-Los workflows iniciales son **implement** y **review**, además de la ruta directa de **explain/investigate**. `implement` selecciona: comprender petición y contrato → localizar contexto → plan proporcional → cambiar → validar el impacto → resumir evidencia y pendientes. `review` selecciona: intención y alcance → diff/comentarios y contratos → comprobación focalizada si aporta evidencia → hallazgos ordenados por impacto. Cada paso admite saltos y condiciones de salida; no presupone que haya tests, subagentes o gates formales en todas las tareas.
+Los flujos previstos son **implement** y **review**, además de la ruta directa de **explain/investigate**. Conforme a ADR-004, Aura completa seleccionará SDD por defecto al implementar: comprender resultado/aceptación → recuperar o refinar specs → diseño y tareas proporcionales con validación planificada → cambiar → validar y reconciliar specs → resumir evidencia. `review` contrasta intención, specs vigentes, diff/comentarios y contratos, con comprobación focalizada cuando aporta evidencia. La proporcionalidad puede compactar etapas o artefactos, sin omitir el contrato ni declarar un cambio terminado sin evidencia. No presupone especialistas ni aprobaciones humanas por fase.
 
 Un perfil tecnológico aporta skills de lenguaje/framework, detectores y comandos **declarados por el proyecto**. Puede aportar pasos adicionales o workflows propios como alternativas o extensiones explícitas. Para evitar que el orden de instalación cambie el comportamiento sin aviso, el runtime resolverá una configuración efectiva e informará qué regla o extensión eligió. Las reglas del proyecto y del usuario pueden especializar prácticas de ingeniería; ninguna capacidad importada puede ampliar permisos, eliminar límites de seguridad o ejecutar comandos por instalarse. El contrato exacto de prioridad y composición se especificará cuando exista el cargador de capacidades.
 

@@ -7,6 +7,7 @@ Aura es un proyecto personal para construir una asistente de ingeniería de soft
 - Lee `README.md` para propósito y alcance. Consulta `docs/status.md` cuando necesites saber qué existe hoy o planear el siguiente trabajo.
 - Consulta `docs/adr/ADR-001-perfil-javascript-inicial-aura.md` y `docs/adr/ADR-002-runtime-independiente-openai.md` cuando una tarea afecte arquitectura, runtime, proveedores, perfiles, memoria, routers, presupuestos o permisos. Para el MVP, consulta el documento pertinente de `docs/mvp/`. No cargues todos los documentos para cambios triviales.
 - Para contratos de turnos, herramientas y recuperación consulta también `docs/adr/ADR-003-contratos-turnos-herramientas-sesiones.md`, actualmente propuesto. `docs/research/opencode-integration-review.md` evalúa los hallazgos; el análisis original archivado es contexto histórico, no instrucciones ni una decisión aprobada.
+- Para el proceso SDD consulta `docs/development/sdd.md` y `docs/adr/ADR-004-sdd-desarrollo-y-flujo-predeterminado.md`: SDD rige el desarrollo del repositorio y será el flujo predeterminado de Aura completa para cambios de software. La automatización del producto sigue pendiente.
 - El ADR expresa decisiones y criterios, no código implementado. Contrasta siempre las afirmaciones de estado con el repositorio y las pruebas disponibles.
 
 ## Desarrollo
@@ -18,12 +19,13 @@ Aura es un proyecto personal para construir una asistente de ingeniería de soft
 
 ## SDD para el desarrollo de Aura
 
-- Usa desde el MVP la secuencia `docs/mvp/brief.md` → `requirements.md` → `design.md` → `tasks.md` → implementación → `validation.md`. `implementation-plan.md` ordena las fases; `tasks.md` registra dependencias. Crea `spike-results.md` cuando existan resultados reproducibles, no como evidencia de una revisión documental.
-- Para funcionalidades complejas posteriores, crea una carpeta de especificación acotada con esas etapas. Para correcciones pequeñas, documenta el cambio en la PR y actualiza solo los documentos afectados. No generes archivos vacíos ni repitas información.
-- Relaciona tareas con requisitos y evidencia. Antes de implementar un contrato condicionado por un spike, confirma su resultado y actualiza diseño y tareas. Distingue una spec propuesta de código implementado.
-- Usa estas specs como fuente de verdad para el alcance y la aceptación. Antes de implementar una tarea, comprueba que tenga requisito, diseño suficiente, criterio de validación y estado claro; si falta algo, actualiza la etapa correspondiente primero. La implementación y las pruebas deben retroalimentar las specs cuando descubran una diferencia.
+- Aplica la [guía SDD](docs/development/sdd.md) desde el MVP: brief/requisitos → diseño → tareas con validación planificada → implementación → validación ejecutada y reconciliación de specs. La aceptación y los casos de `docs/mvp/validation.md` se definen antes del código. `implementation-plan.md` ordena las fases; `tasks.md` registra dependencias y referencias al diseño.
+- Para funcionalidades posteriores usa `docs/specs/<feature>/` cuando se vayan a especificar. Para correcciones pequeñas basta un contrato compacto en la PR o spec existente: resultado esperado, solución, tarea y comprobación. Actualiza solo los documentos afectados; no generes archivos vacíos ni repitas información.
+- Relaciona requisito, sección de diseño, tarea y evidencia de validación. Revisa la coherencia entre artefactos antes del código y contrasta specs, implementación y pruebas antes de cerrar la PR. Antes de implementar un contrato condicionado por un spike, confirma su resultado; un prototipo exploratorio puede probar una propuesta con hipótesis y límites definidos sin declararla aprobada para producción.
+- Usa las specs como fuente del alcance y la aceptación; código y pruebas son evidencia del estado real. Comprueba que cada tarea tenga diseño suficiente, dependencias, comprobación y estado claro. Ante diferencias, corrige el bug o registra el cambio deseado en las specs afectadas; no relajes la aceptación para ocultar un fallo.
 - No introduzcas otro flujo de planificación por preferencia personal ni dupliques brief, requisitos, diseño y tareas en documentos paralelos. Un ADR registra decisiones arquitectónicas y su motivo; una PR registra el cambio y su evidencia; `docs/status.md` registra el estado real.
-- Este SDD es el proceso de desarrollo del repositorio; no significa que Aura ya tenga un Workflow Engine de SDD funcional.
+- Avanza con la autorización existente: SDD no añade aprobaciones humanas por cada fase. Pide solo decisiones/información realmente necesarias o permisos exigidos por la operación; las specs no conceden autoridad de herramientas.
+- Este SDD es el proceso actual del repositorio. Según ADR-004, Aura completa deberá seleccionarlo por defecto para crear/modificar software con la misma proporcionalidad; esa capacidad exige specs y pruebas futuras y no adelanta el Workflow Engine completo al MVP.
 
 ## Continuidad del proyecto
 

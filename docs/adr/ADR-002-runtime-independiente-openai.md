@@ -34,6 +34,8 @@ Estas fuentes actualizan la investigación, no aprueban una integración impleme
 7. **Estado y seguridad:** YAML validado para la configuración de usuario y proyecto; sesiones JSONL aisladas por repositorio; límites configurables de turnos del modelo, tiempo, llamadas a herramientas, duración de comandos e iteraciones de corrección. Tool Executor propio que aplique aprobaciones explícitas, raíces autorizadas, manejo de secretos y un sandbox de macOS comprobado. Mostrar datos de uso y cuotas de la cuenta solo cuando el proveedor los exponga de forma verificable, e identificar los valores desconocidos o estimados.
 8. **Primera entrega pequeña:** una ruta directa de agente y un modelo OpenAI configurado. Mantener interfaces separadas para Agent Router y Model Router sin construir todavía distribución multiagente, importación de capacidades, memoria avanzada, workflows completos ni una TUI elaborada.
 
+[ADR-004](ADR-004-sdd-desarrollo-y-flujo-predeterminado.md) establece SDD para desarrollar este MVP y como default de Aura completa. La capacidad del producto de gestionar ese flujo requiere especificación posterior; esta decisión conserva el alcance pequeño de v0.1.0.
+
 ## Evidencia necesaria en la fase 0
 
 - Determinar si existe un protocolo directo de suscripción **documentado o expresamente autorizado** para un runtime de agente de terceros. Separar el permiso de identidad OAuth del derecho de inferencia; registrar fuente precisa, modelos admitidos, límites de uso, reglas de tokens y renovación, estabilidad y aplicación de la cuota de suscripción.

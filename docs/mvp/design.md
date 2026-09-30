@@ -5,7 +5,7 @@
 **Actualizado:** 2026-09-29  
 **Entradas:** [Brief](brief.md), [Requisitos](requirements.md), [ADR-001](../adr/ADR-001-perfil-javascript-inicial-aura.md) y [ADR-002](../adr/ADR-002-runtime-independiente-openai.md).
 
-Este documento es la etapa **Design** del SDD usado para desarrollar Aura. No implica que el Workflow Engine de Aura ya implemente SDD. Los refinamientos siguientes se proponen en [ADR-003](../adr/ADR-003-contratos-turnos-herramientas-sesiones.md); los contratos condicionados se cerrarán con resultados del spike antes de programar cada módulo. La [revisión de integración](../research/opencode-integration-review.md) conserva la procedencia.
+Este documento es la etapa **Design** del SDD usado para desarrollar Aura, según la [guía compartida](../development/sdd.md). La aceptación y su plan de validación deben existir antes de implementar la tarea. No implica que Aura ya gestione SDD como producto; [ADR-004](../adr/ADR-004-sdd-desarrollo-y-flujo-predeterminado.md) aprueba ese default para Aura completa como capacidad posterior. Los refinamientos siguientes se proponen en [ADR-003](../adr/ADR-003-contratos-turnos-herramientas-sesiones.md); los contratos condicionados se cerrarán con resultados del spike antes de programar cada módulo. La [revisión de integración](../research/opencode-integration-review.md) conserva la procedencia.
 
 ## Recorrido de una tarea
 

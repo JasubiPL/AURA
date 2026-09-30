@@ -4,7 +4,7 @@
 **Estado:** Plan de validación; todos los casos de implementación están pendientes.  
 **Entradas:** [Requisitos](requirements.md), [Diseño](design.md), [Tareas](tasks.md) y propuesta de [ADR-003](../adr/ADR-003-contratos-turnos-herramientas-sesiones.md).
 
-Esta matriz completa la etapa de validación del SDD existente. Define qué demostrar; no afirma que haya pruebas ni capacidades ejecutadas. Los refinamientos de ADR-003 requieren revisión antes de convertirse en contratos definitivos. Las suites y herramientas de prueba se elegirán en T-04; `node:test` sigue como propuesta.
+Esta matriz planifica la validación del SDD existente antes del código y registra evidencia cuando se ejecute. Define qué demostrar; no afirma que haya pruebas ni capacidades ejecutadas. Según la [guía SDD](../development/sdd.md), cada incremento se contrasta con requisito, diseño, tarea y evidencia antes de cerrarse. Los refinamientos de ADR-003 requieren revisión antes de convertirse en contratos definitivos. Las suites y herramientas de prueba se elegirán en T-04; `node:test` sigue como propuesta.
 
 ## Casos por requisito
 

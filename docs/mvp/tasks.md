@@ -7,6 +7,8 @@
 
 Marca una casilla solo cuando exista evidencia en código o documentación y la validación indicada se haya completado. Si cambia el diseño, actualiza este archivo y los requisitos relacionados en la misma PR. El [plan de implementación](implementation-plan.md) define el orden de fases; la [matriz de validación](validation.md) fija los casos V-01 a V-12. Los contratos de ADR-003 siguen propuestos; ninguna tarea ejecutable se marca completada con el análisis de OpenCode.
 
+La [guía SDD](../development/sdd.md) exige revisar suficiencia y coherencia antes del código y reconciliar specs/implementación/evidencia al cerrar. Cada tarea remite a requisitos y comprobaciones; la tabla siguiente añade su sección de diseño y dependencias. Los criterios se planifican antes de implementar; los resultados se registran al ejecutarlos.
+
 ## Fase 0 — Resolver factibilidad antes de cerrar contratos
 
 - [ ] **T-00 · Contrato de turnos con mock** (R-02, R-11; V-02/V-11): tras revisar su diseño propuesto, un mock en streaming pide leer un fixture; Aura valida/autoriza, registra inicio y resultado y completa la respuesta. Sin shell ni credenciales. Evidencia: comando reproducible y variantes de llamada desconocida/obsoleta, ID duplicado, argumentos inválidos, ruta denegada, rechazo, cancelación y stream incompleto sin efectos.
@@ -43,18 +45,25 @@ Marca una casilla solo cuando exista evidencia en código o documentación y la 
 
 ## Dependencias para empezar cada módulo
 
-| Trabajo | Entrada necesaria |
-| --- | --- |
-| T-00 | Diseño mínimo revisado; fixture y mock, sin esperar OAuth o shell. |
-| T-01 / T-02 | Investigación independiente; fuentes y entorno de prueba apropiados. |
-| T-10 / T-11 / T-12 | Parte pertinente de T-03/T-04 cerrada: entorno, YAML o persistencia respectivamente. |
-| T-20 / T-21 / T-22 | T-00 y contratos pertinentes de T-04; mock suficiente. |
-| T-23 | Contrato de límites de T-03/T-04 y almacenamiento T-12; módulo validado con streams simulados, integración de shell en T-41. |
-| T-30 / T-31 | T-01 y contrato de proveedor revisado; T-20/T-22 para ciclo completo. |
-| T-40 | T-22 y políticas/rutas revisadas con T-02; puede probarse con mock antes de T-30. |
-| T-41 | T-22, T-02 y captura de T-23 validada con simulación; valida su integración real en macOS sin depender de T-30. |
-| T-42 | Módulos de R-01 a R-12 implementados y validados, incluyendo T-30 y T-41 reales. |
+| Trabajo | Diseño de referencia | Entrada necesaria |
+| --- | --- | --- |
+| T-00 | [Primer spike](design.md#primer-spike-propuesto-t-00) y [proveedor/herramientas](design.md#proveedor-y-herramientas). | Hipótesis y contrato mínimo revisados; fixture y mock, sin esperar OAuth o shell. |
+| T-01 | [Presupuesto/OpenAI](design.md#presupuesto-y-openai) y fuentes de ADR-002. | Investigación independiente de elegibilidad, registro, protocolo y límites; cuenta autorizada solo para prueba real. |
+| T-02 | [Seguridad/fallos](design.md#seguridad-y-fallos) y [archivos/permisos](design.md#archivos-salida-y-permisos). | Hipótesis de aislamiento, recursos desechables y macOS real; no dar por elegido el mecanismo. |
+| T-03 | [Configuración/recuperación](design.md#configuración-y-recuperación) y [presupuestos](design.md#presupuesto-y-openai). | Propuestas y fixtures para comparar esquemas, identidades, locks y límites; datos reales del proveedor dependen de T-01. |
+| T-04 | [Contratos propuestos](design.md#contratos-mínimos-propuestos) y [decisiones condicionadas](design.md#decisiones-condicionadas-por-el-spike). | Resultados pertinentes de fase 0; cerrar por contrato sin esperar investigación ajena al módulo. |
+| T-10 | [Recorrido de tarea](design.md#recorrido-de-una-tarea) y [fronteras](design.md#límites-entre-componentes). | Entorno de T-03 y contrato suficiente de CLI/raíz en T-04. |
+| T-11 / T-12 | [Configuración/recuperación](design.md#configuración-y-recuperación) y [permisos](design.md#archivos-salida-y-permisos). | Parte pertinente de T-03/T-04 cerrada: YAML/reglas o identidad/persistencia respectivamente. |
+| T-20 / T-22 | [Proveedor/herramientas](design.md#proveedor-y-herramientas) y [fronteras](design.md#límites-entre-componentes). | T-00 y contratos pertinentes de T-04; mock suficiente. |
+| T-21 | [Presupuestos](design.md#presupuesto-y-openai) y [recorrido de tarea](design.md#recorrido-de-una-tarea). | T-00, política de contexto/cancelación y límites pertinentes cerrados en T-04. |
+| T-23 | [Archivos/salida](design.md#archivos-salida-y-permisos) y [persistencia](design.md#configuración-y-recuperación). | Contrato de límites de T-03/T-04 y almacenamiento T-12; módulo validado con streams simulados, integración de shell en T-41. |
+| T-30 / T-31 | [OpenAI/presupuesto](design.md#presupuesto-y-openai), [proveedor](design.md#proveedor-y-herramientas) y [fallos](design.md#seguridad-y-fallos). | T-01 y contrato de proveedor revisado; T-20/T-22 para ciclo completo. |
+| T-40 | [Archivos/permisos](design.md#archivos-salida-y-permisos). | T-22 y políticas/rutas revisadas con T-02; puede probarse con mock antes de T-30. |
+| T-41 | [Seguridad/fallos](design.md#seguridad-y-fallos) y [captura](design.md#archivos-salida-y-permisos). | T-22, T-02 y captura de T-23 validada con simulación; valida su integración real en macOS sin depender de T-30. |
+| T-42 | [Recorrido completo](design.md#recorrido-de-una-tarea) y [aceptación](brief.md#criterios-de-aceptación-para-el-lanzamiento). | Módulos de R-01 a R-12 implementados y validados, incluyendo T-30 y T-41 reales. |
 
 ## Seguimiento
 
 En cada PR identifica los IDs T y R afectados, evidencia ejecutada y decisiones pendientes. Las casillas no sustituyen las pruebas ni convierten propuestas en funciones implementadas. Si T-01 o T-02 bloquean el lanzamiento, continuar únicamente las tareas independientes y reflejar el bloqueo en `docs/status.md`.
+
+La plantilla de PR solicita trazabilidad a diseño y casos V; el cierre contrasta lo implementado con esa aceptación. Si aparece trabajo no previsto, actualizar primero el alcance/diseño pertinente y derivar una tarea antes de declararlo completado. La decisión de SDD por defecto en Aura completa está en ADR-004 y requiere una spec posterior, sin tareas ejecutables nuevas para v0.1.0 en este archivo.

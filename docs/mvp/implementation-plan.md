@@ -4,7 +4,7 @@
 **Fecha:** 2026-09-25  
 **Actualizado:** 2026-09-29  
 **Rama de integración:** `feature/mvp-v0.1.0`, mediante ramas y PR pequeñas dirigidas a ella, no a `main`.  
-**Trazabilidad SDD:** [Brief](brief.md) → [Requisitos](requirements.md) → [Diseño](design.md) → [Tareas](tasks.md) → implementación → [Validación](validation.md). Este plan ordena las fases; las tareas contienen casillas, dependencias y evidencias. Los refinamientos de [ADR-003](../adr/ADR-003-contratos-turnos-herramientas-sesiones.md) son propuestas para revisión.
+**Trazabilidad SDD:** [Brief](brief.md) → [Requisitos](requirements.md) → [Diseño](design.md) → [Tareas](tasks.md) con [validación planificada](validation.md) → implementación → validación ejecutada y reconciliación de specs. Este plan ordena las fases; las tareas contienen casillas, dependencias, referencias al diseño y evidencias. La [guía SDD](../development/sdd.md) define preparación/cierre por incremento. Los refinamientos de [ADR-003](../adr/ADR-003-contratos-turnos-herramientas-sesiones.md) son propuestas para revisión.
 
 ## Fase 0 — Spike de factibilidad del runtime independiente y la suscripción
 
@@ -49,3 +49,5 @@ Crear ramas acotadas `feat/*`, `fix/*`, `docs/*` y `test/*` desde la versión m�
 ## Versiones posteriores
 
 Las decisiones futuras aprobadas podrán incorporar Anthropic, un adaptador independiente para la API facturada de OpenAI, otros sistemas operativos, más modelos, routers avanzados, workflows y agentes opcionales, capacidades externas, memoria avanzada e inspeccionable y una TUI elaborada. App Server no sustituye automáticamente los requisitos de un runtime independiente.
+
+Según [ADR-004](../adr/ADR-004-sdd-desarrollo-y-flujo-predeterminado.md), Aura completa usará SDD por defecto para cambios de software. Antes de implementar esa capacidad posterior, crear su spec con selección del flujo, continuidad, gestión de artefactos y aceptación; no añadir un Workflow Engine completo a estas fases del MVP.

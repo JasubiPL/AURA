@@ -25,6 +25,8 @@ Una v0.1.0 satisfactoria abre un repositorio local, conversa con un modelo OpenA
 
 Codex App Server y Codex SDK **no** serán el runtime inicial de Aura: ambos ejecutan o controlan el agente de Codex. Permanecen como referencias de investigación, sin ser rutas automáticas de respaldo. Este hito tampoco incluirá Anthropic, facturación mediante API key, importación de skills externas, ejecución multiagente, workflows avanzados, memoria automática de largo plazo, TUI elaborada ni soporte para varios sistemas operativos.
 
+El repositorio se construye con SDD desde ahora conforme a [ADR-004](../adr/ADR-004-sdd-desarrollo-y-flujo-predeterminado.md). Aura completa deberá usar SDD por defecto para cambios de software; automatizar y mantener ese flujo es una capacidad posterior con specs propias, no un requisito nuevo de lanzamiento del MVP.
+
 ## Dependencia y riesgo central
 
 La investigación actual identifica una candidata oficial para usar el plan de ChatGPT desde aplicaciones abiertas y locales; las fuentes y condiciones se mantienen en ADR-002. Su existencia no demuestra elegibilidad ni una integración funcional para Aura. La fase 0 debe verificar alcance permitido, condiciones de distribución, soporte del protocolo, acceso a modelos, cuotas, almacenamiento de tokens y manejo seguro de fallos. OpenCode aporta patrones técnicos; no concede acceso a un servicio ni resuelve el sandbox de Aura.
